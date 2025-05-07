@@ -7,7 +7,7 @@ Built with **HTML**, **CSS (glassmorphism design)**, and **JavaScript**. Include
 ---
 
 ## 🌐 Demo
-Published version available [here]([https://theofief.github.io/investment-distribution-calculator/)
+Published version available [here](https://theofief.github.io/investment-distribution-calculator/)
 
 ---
 
