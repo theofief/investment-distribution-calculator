@@ -7,8 +7,7 @@ Built with **HTML**, **CSS (glassmorphism design)**, and **JavaScript**. Include
 ---
 
 ## 🌐 Demo
-
-> Live demo coming soon...
+Published version available [here]([https://theofief.github.io/investment-distribution-calculator/)
 
 ---
 
@@ -56,6 +55,4 @@ investment-distribution/
 - LocalStorage
 
 ⚠️ Disclaimer
-```
-**⚠️ This tool is not financial advice. The displayed strategy reflects a personal allocation logic. Please do your own research (DYOR) before making any investment.**
-```
+> ⚠️ This tool is not financial advice. The displayed strategy reflects a personal allocation logic. Please do your own research (DYOR) before making any investment.**
