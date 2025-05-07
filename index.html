@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Investment Distribution</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.15);
+      --text-color: #000;
+      --card-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+    }
+
+    body.dark {
+      --bg-color: rgba(0, 0, 0, 0.25);
+      --text-color: #fff;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      background-color: #121212;
+      color: var(--text-color);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .glass {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label, select, input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      background: none;
+      color: inherit;
+    }
+
+    input, select {
+      padding: 0.5rem;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      backdrop-filter: blur(6px);
+    }
+
+    button {
+      background-color: rgba(76, 175, 80, 0.7);
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      backdrop-filter: blur(6px);
+    }
+
+    button:hover {
+      background-color: rgba(69, 160, 73, 0.8);
+    }
+
+    .results {
+      margin-top: 2rem;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 100px;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 12px;
+      background-color: rgba(0, 0, 0, 0.3);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .mentions {
+      font-size: 0.8rem;
+      margin-top: 2rem;
+      text-align: center;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" onclick="toggleDarkMode()">🌙 / ☀️</button>
+  <div class="glass">
+    <h2>Investment Distribution</h2>
+    <label for="mode">Mode:</label>
+    <select id="mode">
+      <option value="big">Big</option>
+      <option value="small">Small</option>
+    </select>
+
+    <label for="amount">Amount (€):</label>
+    <input type="number" id="amount" placeholder="Enter an amount...">
+
+    <button onclick="calculateDistribution()">Calculate</button>
+
+    <div class="results" id="results"></div>
+
+    <div class="mentions">
+      This site does not constitute investment advice 💼<br>
+      Calculations are based solely on my personal strategy.<br>
+      Always do your own research before investing.
+    </div>
+  </div>
+
+  <script>
+    // Initialiser le mode à partir du localStorage
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode === "true") {
+      document.body.classList.add("dark");
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      localStorage.setItem("darkMode", isDark);
+    }
+
+    function calculateDistribution() {
+      const mode = document.getElementById("mode").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const results = document.getElementById("results");
+      if (isNaN(amount) || amount <= 0) {
+        results.innerHTML = "<p>Please enter a valid amount.</p>";
+        return;
+      }
+
+      let output = "";
+
+      if (mode === "big") {
+        const etfCommodities = amount * 0.4;
+        const techStocks = amount * 0.2;
+        const crypto = amount * 0.4;
+
+        output += `<h3>ETF / Commodities (40%) - ${etfCommodities.toFixed(2)}€</h3>`;
+        output += `<ul>
+          <li>Amundi MSCI World (50%) : ${(etfCommodities * 0.5).toFixed(2)}€</li>
+          <li>Gold (20%) : ${(etfCommodities * 0.2).toFixed(2)}€</li>
+          <li>Robo advisor Revolut (30%) : ${(etfCommodities * 0.3).toFixed(2)}€</li>
+        </ul>`;
+
+        output += `<h3>Tech Stocks (20%) - ${techStocks.toFixed(2)}€</h3>`;
+        output += `<ul>
+          <li>Nvidia (35%) : ${(techStocks * 0.35).toFixed(2)}€</li>
+          <li>Apple (25%) : ${(techStocks * 0.25).toFixed(2)}€</li>
+          <li>Microsoft (25%) : ${(techStocks * 0.25).toFixed(2)}€</li>
+          <li>ASML (15%) : ${(techStocks * 0.15).toFixed(2)}€</li>
+        </ul>`;
+
+        output += `<h3>Crypto (40%) - ${crypto.toFixed(2)}€</h3>`;
+        output += `<ul>
+          <li>Bitcoin (70%) : ${(crypto * 0.7).toFixed(2)}€</li>
+          <li>Ethereum (30%) : ${(crypto * 0.3).toFixed(2)}€</li>
+        </ul>`;
+
+      } else if (mode === "small") {
+        const etf = amount * 0.2;
+        const crypto = amount * 0.4;
+        const robo = amount * 0.4;
+
+        output += `<h3>ETF (20%) - ${etf.toFixed(2)}€</h3>`;
+        output += `<ul>
+          <li>Amundi MSCI World : ${etf.toFixed(2)}€</li>
+        </ul>`;
+
+        output += `<h3>Crypto (40%) - ${crypto.toFixed(2)}€</h3>`;
+        output += `<ul>
+          <li>Bitcoin (70%) : ${(crypto * 0.7).toFixed(2)}€</li>
+          <li>Ethereum (30%) : ${(crypto * 0.3).toFixed(2)}€</li>
+        </ul>`;
+
+        output += `<h3>Robo advisor Revolut (40%) - ${robo.toFixed(2)}€</h3>`;
+      }
+
+      results.innerHTML = output;
+    }
+  </script>
+</body>
+</html>
